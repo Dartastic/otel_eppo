@@ -1,13 +1,13 @@
-// Licensed under the Dartastic Pro Software License Agreement.
+// Licensed under the MIT License.
 // Copyright 2025-2026 Mindful Software LLC d/b/a Dartastic.io, All rights reserved.
 
-import 'package:dartastic_opentelemetry/dartastic_opentelemetry.dart';
+import 'package:dartastic_opentelemetry_api/dartastic_opentelemetry_api.dart';
 
 import 'otel_eppo_suppression.dart';
 
 const _tracerName = 'dartastic_otel_libs_eppo';
 
-Tracer _tracer() => OTel.tracerProvider().getTracer(_tracerName);
+APITracer _tracer() => OTelAPI.tracerProvider().getTracer(_tracerName);
 
 class EppoResult {
   const EppoResult({
@@ -89,62 +89,62 @@ Future<T> tracedEppo<T>({
   final span = _tracer().startSpan(
     'eppo $operation',
     kind: SpanKind.client,
-    attributes: OTel.attributesFromMap(m),
+    attributes: OTelAPI.attributesFromMap(m),
   );
   try {
     final r = await invoke();
     if (r.result != null) {
       final extras = <Attribute<Object>>[];
       if (r.result!.flagKey != null) {
-        extras.add(OTel.attributeString(
+        extras.add(OTelAPI.attributeString(
           'eppo.flag.key',
           r.result!.flagKey!,
         ));
       }
       if (r.result!.variation != null) {
-        extras.add(OTel.attributeString(
+        extras.add(OTelAPI.attributeString(
           'eppo.variation',
           r.result!.variation!,
         ));
       }
       if (r.result!.experimentKey != null) {
-        extras.add(OTel.attributeString(
+        extras.add(OTelAPI.attributeString(
           'eppo.experiment.key',
           r.result!.experimentKey!,
         ));
       }
       if (r.result!.allocationKey != null) {
-        extras.add(OTel.attributeString(
+        extras.add(OTelAPI.attributeString(
           'eppo.allocation.key',
           r.result!.allocationKey!,
         ));
       }
       if (r.result!.subjectKey != null) {
-        extras.add(OTel.attributeString(
+        extras.add(OTelAPI.attributeString(
           'eppo.subject.key',
           r.result!.subjectKey!,
         ));
       }
       if (r.result!.holdoutKey != null) {
-        extras.add(OTel.attributeString(
+        extras.add(OTelAPI.attributeString(
           'eppo.holdout.key',
           r.result!.holdoutKey!,
         ));
       }
       if (r.result!.banditAction != null) {
-        extras.add(OTel.attributeString(
+        extras.add(OTelAPI.attributeString(
           'eppo.bandit.action',
           r.result!.banditAction!,
         ));
       }
       if (r.result!.banditScore != null) {
-        extras.add(OTel.attributeInt(
+        extras.add(OTelAPI.attributeInt(
           'eppo.bandit.score.thousandths',
           r.result!.banditScore!,
         ));
       }
       if (r.result!.usedDefault != null) {
-        extras.add(OTel.attributeBool(
+        extras.add(OTelAPI.attributeBool(
           'eppo.used_default',
           r.result!.usedDefault!,
         ));
@@ -156,13 +156,13 @@ Future<T> tracedEppo<T>({
         }
       }
       if (r.result!.requestId != null) {
-        extras.add(OTel.attributeString(
+        extras.add(OTelAPI.attributeString(
           'eppo.request.id',
           r.result!.requestId!,
         ));
       }
       if (r.result!.statusCode != null) {
-        extras.add(OTel.attributeInt(
+        extras.add(OTelAPI.attributeInt(
           'http.response.status_code',
           r.result!.statusCode!,
         ));
@@ -173,13 +173,13 @@ Future<T> tracedEppo<T>({
           );
         }
       }
-      if (extras.isNotEmpty) span.addAttributes(OTel.attributes(extras));
+      if (extras.isNotEmpty) span.addAttributes(OTelAPI.attributes(extras));
     }
     return r.value;
   } catch (e, st) {
-    span.addAttributes(OTel.attributes([
-      OTel.attributeString(
-        ErrorResource.errorType.key,
+    span.addAttributes(OTelAPI.attributes([
+      OTelAPI.attributeString(
+        ErrorAttributes.errorType.key,
         e.runtimeType.toString(),
       ),
     ]));
