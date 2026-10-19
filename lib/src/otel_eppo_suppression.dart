@@ -5,11 +5,14 @@ import 'dart:async';
 
 const Symbol _suppressKey = #dartastic_otel_libs_eppo_suppress;
 
+/// Whether instrumentation is suppressed in the current zone.
 bool eppoInstrumentationSuppressed() => Zone.current[_suppressKey] == true;
 
+/// Runs [body] without creating spans for calls made inside it.
 T runWithoutEppoInstrumentation<T>(T Function() body) =>
     runZoned(body, zoneValues: {_suppressKey: true});
 
+/// Runs [body] without creating spans for calls made inside it.
 Future<T> runWithoutEppoInstrumentationAsync<T>(
   Future<T> Function() body,
 ) =>

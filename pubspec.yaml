@@ -2,7 +2,7 @@ name: otel_eppo
 description: >-
   OpenTelemetry instrumentation for eppo by Dartastic.io. Adds standard
   OpenTelemetry observability to applications that use eppo.
-version: 0.1.0-wip
+version: 0.1.0
 repository: https://github.com/dartastic/otel_eppo
 homepage: https://dartastic.io
 

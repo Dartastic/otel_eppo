@@ -10,6 +10,7 @@ const _tracerName = 'dartastic_otel_libs_eppo';
 APITracer _tracer() => OTelAPI.tracerProvider().getTracer(_tracerName);
 
 class EppoResult {
+  /// Creates a result.
   const EppoResult({
     this.flagKey,
     this.variation,
@@ -59,8 +60,13 @@ class EppoResult {
   final int? statusCode;
 }
 
+/// What a traced call returned: the value for the caller plus fields
+/// recorded on the span.
 class EppoCallResult<T> {
+  /// Creates a call result.
   const EppoCallResult({required this.value, this.result});
+
+  /// The value returned to the caller.
   final T value;
   final EppoResult? result;
 }
